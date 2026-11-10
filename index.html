@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#160d2b">
+<title>30 Days With You ♡</title>
+
+<style>
+:root {
+  --pink: #f5a9d2;
+  --pale: #ffe3f2;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 28px 15px 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  color: white;
+  font-family: Georgia, serif;
+  background: radial-gradient(ellipse at 50% 0%,#59306c,#241438 48%,#0c0918);
+}
+
+.container {
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.top {
+  font: 10px Arial;
+  letter-spacing: 4px;
+  color: var(--pink);
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: clamp(28px,8vw,36px);
+  color: var(--pale);
+  margin: 0;
+  text-shadow: 0 0 18px #f58ac8a8;
+  animation: titleGlow 3s infinite alternate;
+}
+
+.subtitle {
+  font: 13px Arial;
+  color: #d9c4e5;
+  margin: 12px 0 24px;
+  line-height: 1.6;
+}
+
+.card {
+  min-height: 390px;
+  padding: 28px 22px;
+  border-radius: 25px;
+  background: linear-gradient(145deg,#ffffff18,#ffffff08);
+  border: 1px solid #f5b9df55;
+  box-shadow: 0 14px 45px #05030b80;
+  backdrop-filter: blur(12px);
+}
+
+.card.enter {
+  animation: cardIn .55s ease both;
+}
+
+.day {
+  font: 11px Arial;
+  letter-spacing: 3px;
+  color: var(--pink);
+  margin-bottom: 24px;
+}
+
+.message {
+  min-height: 205px;
+  color: #fff1f8;
+  font-size: 16px;
+  line-height: 1.95;
+  white-space: pre-line;
+  text-align: left;
+}
+
+.heart {
+  font-size: 29px;
+  color: #ffacd7;
+  margin: 17px 0 10px;
+  animation: heartbeat 1.5s infinite;
+}
+
+button {
+  border: 0;
+  border-radius: 30px;
+  padding: 12px 17px;
+  margin: 5px;
+  background: linear-gradient(100deg,#f5b0d5,#c99bea);
+  color: #291536;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: .32;
+  cursor: not-allowed;
+}
+
+.nav {
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: 8px;
+  margin-top: 19px;
+}
+
+.nav button {
+  margin: 0;
+  padding: 11px 3px;
+  font-size: 11px;
+}
+
+.nav button.selected {
+  box-shadow: 0 0 0 2px #ffe0f1;
+}
+
+.nav button.locked {
+  background: #ffffff12;
+  color: #d4c2dc;
+}
+
+.progress {
+  font: 12px Arial;
+  color: #ddc8e8;
+  margin-top: 22px;
+}
+
+.bar {
+  height: 5px;
+  background: #ffffff20;
+  border-radius: 20px;
+  margin-top: 9px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#f4a6d1,#d8a6f2);
+  transition: width .5s;
+}
+
+.footer {
+  font: 11px Arial;
+  color: #a995b5;
+  margin-top: 23px;
+  line-height: 1.7;
+}
+
+.lock-icon {
+  font-size: 48px;
+  margin: 16px 0;
+  animation: lockPulse 2s infinite;
+}
+
+.lock-title {
+  color: var(--pale);
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.lock-copy {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #ead9f0;
+  white-space: pre-line;
+}
+
+.particle {
+  position: fixed;
+  bottom: -35px;
+  left: var(--left);
+  font-size: var(--size);
+  color: #ffb5dc;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  animation: floatUp var(--duration) linear var(--delay) infinite;
+  text-shadow: 0 0 12px #ff9fd4;
+}
+
+.star {
+  position: fixed;
+  left: var(--left);
+  top: var(--top);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #ffe8f6;
+  opacity: .25;
+  pointer-events: none;
+  animation: twinkle var(--duration) ease-in-out var(--delay) infinite alternate;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: .65; }
+  85% { opacity: .45; }
+  100% { transform: translateY(-115vh) rotate(35deg); opacity: 0; }
+}
+
+@keyframes twinkle {
+  from { opacity: .12; transform: scale(.7); }
+  to { opacity: .85; transform: scale(1.5); }
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  15% { transform: scale(1.18); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.12); }
+}
+
+@keyframes titleGlow {
+  from { text-shadow: 0 0 9px #f58ac855; }
+  to { text-shadow: 0 0 23px #f58ac8cc; }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes lockPulse {
+  0%,100% { transform: scale(1); opacity: .8; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="effects"></div>
+
+<main class="container">
+
+<div class="top">A LITTLE SOMETHING FOR YOU</div>
+
+<h1>30 Days With You ♡</h1>
+
+<p class="subtitle">
+one day, one letter, one reason to smile.
+</p>
+
+<section class="card" id="card"></section>
+
+<div class="progress" id="progress">
+0 / 30 letters read ♡
+</div>
+
+<div class="bar">
+<div class="fill" id="fill"></div>
+</div>
+
+<nav class="nav" id="nav"></nav>
+
+<p class="footer">
+made with love, only for my princess ♡<br>
+come back tomorrow for your next letter.
+</p>
+
+</main>
+
+<script>
+"use strict";
+
+// TARIKH MULA
+const START_DATE = "2026-11-10";
+
+const letters = [
+
+`day 1 — the beginning ♡
+
+sayang,
+
+i just want you to know that i'm genuinely happy to have you in my life.
+
+out of all the people i could've met, somehow life brought me to you.
+
+and honestly, meeting you is one of my favourite things that ever happened to me.
+
+i hope you never forget how special you are to me.`,
+
+`day 2 — please be gentle with yourself ♡
+
+i hope today treats you gently, princess.
+
+if things get difficult, please remember that you don't have to be perfect every single day.
+
+you can have bad days, you can feel tired, and you can take your time.
+
+your happiness matters too. don't forget that.`,
+
+`day 3 — the little things ♡
+
+do you know something?
+
+sometimes i randomly remember the little things about you.
+
+your voice, your laugh, the way you talk, even the smallest things you probably don't realise.
+
+and somehow, those little memories make my ordinary days feel special.
+
+it's always you, sayang.`,
+
+`day 4 — your presence ♡
+
+i don't think you realise how much your presence means to me.
+
+you don't always have to say something sweet.
+
+sometimes just knowing you're there is enough to make my day better.
+
+thank you for being part of my life.`,
+
+`day 5 — my princess ♡
+
+please don't be too hard on yourself.
+
+i know you have dreams, responsibilities and so many things you want to achieve.
+
+but don't forget to take care of your own heart too.
+
+your happiness matters. your feelings matter. YOU matter.`,
+
+`day 6 — through my eyes ♡
+
+if i could give you one thing, it would be the ability to see yourself through my eyes.
+
+maybe then you'd understand why i appreciate you so much.
+
+you are more precious than you think, and i hope you never doubt that.`,
+
+`day 7 — missing you ♡
+
+i miss you in the simplest ways.
+
+sometimes i just wish we could sit together without having to worry about anything.
+
+no rush, no pressure, no distractions.
+
+just you and me, enjoying a little moment together.`,
+
+`day 8 — still learning ♡
+
+thank you for choosing to understand me, even when i'm not the easiest person to understand.
+
+i know i have flaws too.
+
+i'm still learning, still growing, and still trying to become someone who can love you better.
+
+i hope we keep learning together.`,
+
+`day 9 — even on ordinary days ♡
+
+you don't have to earn my appreciation by doing something extraordinary.
+
+even on your most ordinary days, you're still someone worth appreciating.
+
+never think otherwise, okay?`,
+
+`day 10 — your name ♡
+
+i love how something as simple as seeing your name on my screen can make my day better.
+
+it's such a small thing, but it means so much to me.
+
+sometimes happiness really comes from the simplest things.
+
+and you're one of those things.`,
+
+`day 11 — your dreams ♡
+
+i hope your dreams come true, sayang.
+
+i hope all your hard work brings you somewhere beautiful.
+
+and when you finally achieve everything you've been working for, i hope you look back and feel proud of yourself.
+
+you deserve that feeling.`,
+
+`day 12 — memories ♡
+
+there are so many things i want to experience with you.
+
+little dates, random conversations, silly jokes and unforgettable memories.
+
+i don't need everything to be perfect.
+
+i just want those moments to be genuine.`,
+
+`day 13 — i'm proud of you ♡
+
+if today feels a little heavy, take a breath.
+
+you've made it through so many difficult days already.
+
+don't underestimate how strong you've been.
+
+i'm proud of you, princess. even for the things you think are small.`,
+
+`day 14 — more than words ♡
+
+i know sometimes words aren't enough to explain how someone feels.
+
+but i hope my actions, my efforts and the little things i do can show you how much i value you.
+
+i don't want you to just hear that you're special.
+
+i want you to feel it too.`,
+
+`day 15 — just being you ♡
+
+i love the little details that make you, YOU.
+
+your personality, your random thoughts, your habits and even the things you find silly.
+
+i wouldn't want you to change yourself just to become someone else.
+
+being you is already something i appreciate.`,
+
+`day 16 — someday ♡
+
+one day, i hope we can look back at these days and laugh about how much we worried about little things.
+
+i hope we'll have so many stories to tell.
+
+and i hope we'll be proud of how far we've come.`,
+
+`day 17 — i'm sorry ♡
+
+i'm sorry for the moments when i didn't understand you properly.
+
+i'm still learning how to listen better, communicate better and understand your feelings.
+
+i never want you to feel like your feelings are unimportant.
+
+you deserve to be heard.`,
+
+`day 18 — through everything ♡
+
+i don't just want to be there when everything is happy and easy.
+
+i also hope we can learn to understand each other when things aren't going according to plan.
+
+because meaningful connections need patience too.`,
+
+`day 19 — my favourite part ♡
+
+sometimes my favourite part of an ordinary day is simply talking to you.
+
+nothing extraordinary needs to happen.
+
+your presence alone can make an ordinary moment feel different.`,
+
+`day 20 — your own journey ♡
+
+i hope you never compare your journey with anyone else's.
+
+you have your own timing, your own dreams and your own path.
+
+please keep going at your own pace.
+
+i believe you can do so many beautiful things.`,
+
+`day 21 — pause the moment ♡
+
+i wish i could pause certain moments with you.
+
+not because i want time to stop forever, but because some moments are just too precious to forget.
+
+i want to appreciate every little memory we create.`,
+
+`day 22 — be yourself with me ♡
+
+thank you for letting me know the person behind your smiles.
+
+i hope you always feel comfortable being honest with me.
+
+you don't need to pretend that everything is okay when it isn't.
+
+your real feelings deserve space too.`,
+
+`day 23 — you're not just anyone ♡
+
+i may not always find the perfect words, but one thing is certain:
+
+i appreciate having you in my life.
+
+and i hope you never feel that you're just another person to me.
+
+because you're not.`,
+
+`day 24 — choosing kindness ♡
+
+i hope we continue choosing kindness when we misunderstand each other.
+
+i hope we continue communicating instead of assuming.
+
+and i hope we never forget that we're two people learning how to understand each other better.`,
+
+`day 25 — all your little details ♡
+
+my favourite thing about you isn't just one particular thing.
+
+it's the combination of all those little details that make you the person i know and appreciate today.
+
+i wouldn't trade those memories for anything.`,
+
+`day 26 — a beautiful future ♡
+
+i want you to have a life you're proud of.
+
+i want you to achieve your dreams, discover new things and experience happiness in ways you've always imagined.
+
+and i hope you never stop believing in yourself.`,
+
+`day 27 — even when we're busy ♡
+
+even if we have busy days, different responsibilities and moments when we can't talk as much,
+
+i hope you remember that a quiet day doesn't make the memories we've shared any less meaningful.
+
+take care of yourself, okay?`,
+
+`day 28 — growing together ♡
+
+if there's one thing i wish for us, it's to keep growing into better versions of ourselves.
+
+not perfect people.
+
+just two people willing to learn, understand, apologise and appreciate each other.
+
+that's something worth protecting.`,
+
+`day 29 — almost there ♡
+
+we're almost at the last letter, princess.
+
+but i hope you know that these 29 days were never about finding 29 different reasons to appreciate you.
+
+they were just little reminders of something i feel every day.
+
+you matter to me, more than these letters can explain.`,
+
+`day 30 — my final letter ♡
+
+sayang,
+
+thank you for being you.
+
+thank you for the memories, the conversations, the laughter and every little moment we've shared.
+
+i don't know exactly what every tomorrow will bring, but i hope we keep making beautiful memories together.
+
+never forget that you're appreciated, you're valued and you're someone very special in my life.
+
+i love you, princess.
+
+always with sincerity.
+
+— from your bb ♡`
+
+];
+
+const card = document.getElementById("card");
+const nav = document.getElementById("nav");
+const progress = document.getElementById("progress");
+const fill = document.getElementById("fill");
+
+let typeTimer = null;
+let selectedDay = 1;
+
+// KIRA HARI BERDASARKAN TARIKH TELEFON
+function localDayNumber() {
+  const [year, month, day] = START_DATE.split("-").map(Number);
+  const start = new Date(year, month - 1, day);
+  const now = new Date();
+  const today = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
+
+  const diff = Math.floor((today - start) / 86400000);
+
+  return Math.max(0, Math.min(letters.length, diff + 1));
+}
+
+// SIMPAN SURAT YANG SUDAH DIBACA
+function getReadDays() {
+  try {
+    const parsed = JSON.parse(
+      localStorage.getItem("anisReadDays") || "[]"
+    );
+
+    if (!Array.isArray(parsed)) return [];
+
+    return [...new Set(parsed.filter(n =>
+      Number.isInteger(n) &&
+      n >= 1 &&
+      n <= letters.length
+    ))];
+
+  } catch {
+    return [];
+  }
+}
+
+function saveReadDay(day) {
+  const read = getReadDays();
+
+  if (!read.includes(day)) {
+    read.push(day);
+    localStorage.setItem(
+      "anisReadDays",
+      JSON.stringify(read)
+    );
+  }
+}
+
+// TYPEWRITER ANIMATION
+function stopTyping() {
+  if (typeTimer !== null) {
+    clearInterval(typeTimer);
+    typeTimer = null;
+  }
+}
+
+function typeMessage(element, message) {
+  stopTyping();
+
+  element.textContent = "";
+
+  let index = 0;
+
+  typeTimer = setInterval(() => {
+    if (!element.isConnected) {
+      stopTyping();
+      return;
+    }
+
+    element.textContent += message.charAt(index);
+    index++;
+
+    if (index >= message.length) {
+      stopTyping();
+    }
+
+  }, 17);
+}
+
+// PAPAR SLIDE LOCKED
+function renderLocked() {
+  stopTyping();
+
+  card.innerHTML = `
+    <div class="lock-icon">🔒</div>
+
+    <h2 class="lock-title">
+      not yet, princess ♡
+    </h2>
+
+    <p class="lock-copy">
+this letter is waiting for its special day.
+
+come back tomorrow, sayang.
+
+good things are worth waiting for.
+    </p>
+
+    <div class="heart">♡</div>
+  `;
+}
+
+// PAPAR SURAT
+function renderLetter(day) {
+  stopTyping();
+
+  selectedDay = day;
+
+  card.classList.remove("enter");
+
+  void card.offsetWidth;
+
+  card.classList.add("enter");
+
+  card.innerHTML = `
+    <div class="day">
+      LETTER ${day} OF ${letters.length}
+    </div>
+
+    <p class="message" id="typedMessage"></p>
+
+    <div class="heart">♡</div>
+
+    <button type="button" id="readButton">
+      i've read today's letter ♡
+    </button>
+  `;
+
+  const message = document.getElementById("typedMessage");
+  const readButton = document.getElementById("readButton");
+
+  const read = getReadDays();
+
+  if (read.includes(day)) {
+    readButton.textContent = "read again ♡";
+  }
+
+  readButton.addEventListener("click", () => {
+    if (day > localDayNumber()) return;
+
+    saveReadDay(day);
+    updateProgress();
+
+    readButton.textContent = "read again ♡";
+  });
+
+  typeMessage(message, letters[day - 1]);
+}
+
+// PILIH SLIDE
+function showSlide(day) {
+  const unlocked = localDayNumber();
+
+  if (
+    !Number.isInteger(day) ||
+    day < 1 ||
+    day > letters.length
+  ) return;
+
+  selectedDay = day;
+
+  if (day > unlocked) {
+    renderLocked();
+  } else {
+    renderLetter(day);
+  }
+
+  updateNavigation();
+}
+
+// NAVIGATION
+function updateNavigation() {
+  const unlocked = localDayNumber();
+
+  nav.innerHTML = "";
+
+  for (let day = 1; day <= letters.length; day++) {
+    const button = document.createElement("button");
+
+    const isUnlocked = day <= unlocked;
+
+    button.type = "button";
+    button.textContent = isUnlocked ? `♡ ${day}` : "🔒";
+    button.disabled = !isUnlocked;
+
+    button.className = isUnlocked ? "" : "locked";
+
+    if (day === selectedDay) {
+      button.classList.add("selected");
+    }
+
+    button.addEventListener("click", () => {
+      showSlide(day);
+    });
+
+    nav.appendChild(button);
+  }
+}
+
+// PROGRESS
+function updateProgress() {
+  const read = getReadDays();
+
+  progress.textContent =
+    `${read.length} / ${letters.length} letters read ♡`;
+
+  fill.style.width =
+    `${(read.length / letters.length) * 100}%`;
+}
+
+// FLOATING HEARTS & STARS
+function createBackgroundEffects() {
+  const effects = document.getElementById("effects");
+
+  const hearts = ["♡", "♥", "✧", "⋆"];
+
+  for (let i = 0; i < 13; i++) {
+    const particle = document.createElement("span");
+
+    particle.className = "particle";
+    particle.textContent = hearts[i % hearts.length];
+
+    particle.style.setProperty(
+      "--left", `${(i * 37 + 8) % 100}%`
+    );
+
+    particle.style.setProperty(
+      "--size", `${12 + (i % 4) * 5}px`
+    );
+
+    particle.style.setProperty(
+      "--duration", `${11 + (i % 5) * 3}s`
+    );
+
+    particle.style.setProperty(
+      "--delay", `${-(i % 8) * 2}s`
+    );
+
+    effects.appendChild(particle);
+  }
+
+  for (let i = 0; i < 22; i++) {
+    const star = document.createElement("span");
+
+    star.className = "star";
+
+    star.style.setProperty(
+      "--left", `${(i * 43 + 5) % 100}%`
+    );
+
+    star.style.setProperty(
+      "--top", `${(i * 29 + 7) % 90}%`
+    );
+
+    star.style.setProperty(
+      "--duration", `${1.5 + (i % 4) * 0.7}s`
+    );
+
+    star.style.setProperty(
+      "--delay", `${-(i % 5)}s`
+    );
+
+    effects.appendChild(star);
+  }
+}
+
+// SEMAK UNLOCK HARI BAHARU
+function refreshForNewDay() {
+  const unlocked = localDayNumber();
+
+  updateNavigation();
+  updateProgress();
+
+  if (unlocked >= 1 && selectedDay < unlocked) {
+    showSlide(unlocked);
+  }
+}
+
+// MULA
+createBackgroundEffects();
+
+updateNavigation();
+updateProgress();
+
+if (localDayNumber() >= 1) {
+  showSlide(1);
+} else {
+  selectedDay = 1;
+  renderLocked();
+}
+
+// SEMAK SEMULA APABILA BROWSER DIBUKA
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    refreshForNewDay();
+  }
+});
+
+// SEMAK SETIAP MINIT
+setInterval(refreshForNewDay, 60000);
+
+</script>
+</body>
+</html>
